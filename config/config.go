@@ -2,7 +2,6 @@ package config
 
 import (
 	"fmt"
-
 	"github.com/yangliang4488/log_agent_system/logger"
 
 	"github.com/spf13/viper"
@@ -30,11 +29,12 @@ func LoadConfig() {
 			Address:  viper.GetString("KAFKA_ADDRESS"),
 			ChanSize: viper.GetInt("KAFKA_CHAN_SIZE"),
 		}
+
 		etcdConf := Etcd{
-			Address:    viper.GetString("ETCD_ADDRESS"),
-			LogKey:     viper.GetString("ETCD_COLLECT_LOG_KEY"),
-			SysinfoKey: viper.GetString("ETCD_COLLECT_SYSINFO_KEY"),
+			Address: viper.GetString("ETCD_ADDRESS"),
+			LogKey:  viper.GetString("ETCD_COLLECT_LOG_KEY"),
 		}
+
 		Config = &ConfigClass{
 			Kfaka: kafkaConf,
 			Etcd:  etcdConf,

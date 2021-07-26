@@ -10,15 +10,14 @@ import (
 type Etcd struct {
 	Address    string
 	LogKey     string
-	SysinfoKey string
 }
 
 var (
-	client *clientv3.Client
+	ClientEtcd *clientv3.Client
 )
 
 func ConnEtcd(address []string) (err error) {
-	client, err = clientv3.New(clientv3.Config{
+	ClientEtcd, err = clientv3.New(clientv3.Config{
 		Endpoints:   address,
 		DialTimeout: 3 * time.Second,
 	})

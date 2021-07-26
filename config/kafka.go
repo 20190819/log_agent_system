@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	Producer sarama.AsyncProducer
+	Producer sarama.SyncProducer
 )
 
 type Kfaka struct {
@@ -15,7 +15,7 @@ type Kfaka struct {
 	ChanSize int
 }
 
-func ConnKafka(address []string, chanSize int) (err error) {
+func ConnKafka(address []string) (err error) {
 	c := sarama.NewConfig()
 
 	c.Producer.MaxMessageBytes = 1000000
@@ -26,7 +26,7 @@ func ConnKafka(address []string, chanSize int) (err error) {
 	c.Producer.Retry.Backoff = 100 * time.Millisecond
 	c.Producer.Return.Successes = true
 
-	Producer, err = sarama.NewAsyncProducer(address, c)
+	Producer, err = sarama.NewSyncProducer(address, c)
 	if err != nil {
 		logger.Logger.Error(err.Error())
 		return
