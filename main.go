@@ -1,6 +1,7 @@
 package main
 
-import _ "yangliang4488/log_agent_system/logger"
+import "github.com/yangliang4488/log_agent_system/bootstrap"
 
 func main() {
+	bootstrap.App()
 }
