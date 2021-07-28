@@ -28,6 +28,7 @@ func InitManager(collectEntries []*etcd.CollectEntry, newConfChan <-chan []*etcd
 			logger.Logger.Error("创建 tailClass 失败：", err.Error())
 			continue
 		}
+		// tail 开始执行任务
 		go t.run()
 		manager.taskMap[collectEntry.Path] = t
 	}

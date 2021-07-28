@@ -78,14 +78,14 @@ func WatchConfChan() <-chan []*CollectEntry {
 
 func WatchConf(key string) {
 	for {
-		rch := config.ClientEtcd.Watch(context.Background(), key) // <-chan WatchResponse
-		for wresp := range rch {
+		wChan := config.ClientEtcd.Watch(context.Background(), key) // <-chan WatchResponse
+		for wresp := range wChan {
 			if err := wresp.Err(); err != nil {
-				logger.Logger.Warnf("watch key:%s err:%v", key, err)
+				logger.Logger.Warningf("watch key:%s err:%v", key, err)
 				continue
 			}
 			for _, ev := range wresp.Events {
-				// 获取了最新的日志配置项怎么传给tailTaskMgr呢？
+				// 获取了最新的日志配置项怎么传给 tailTaskManager 呢？
 				var newConf []*CollectEntry
 				// 需要判断如果是删除操作
 				if ev.Type == clientv3.EventTypeDelete {

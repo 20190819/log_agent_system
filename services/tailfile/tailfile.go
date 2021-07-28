@@ -12,7 +12,7 @@ import (
 
 var localIP string
 
-type logData struct {
+type LogData struct {
 	IP   string `json:"ip"`
 	Data string `json:"data"`
 }
@@ -44,7 +44,6 @@ func (t *tailClass) Init() (err error) {
 	return
 }
 
-
 // 每个 tailClass 都要单独读取日志信息发送到 kafka 中
 func (t *tailClass) run() {
 	for {
@@ -59,18 +58,18 @@ func (t *tailClass) run() {
 				continue
 			}
 
-			log_data := &logData{
+			logData := &LogData{
 				IP:   localIP,
 				Data: line.Text,
 			}
-			json_str, err := json.Marshal(log_data)
+			jsonStr, err := json.Marshal(logData)
 			if err != nil {
 				logger.Logger.Error("json 序列化失败", err)
 				continue
 			}
 
 			msg := &kafkaService.Message{
-				Data:  string(json_str),
+				Data:  string(jsonStr),
 				Topic: t.topic, // 先写死
 			}
 
@@ -93,5 +92,3 @@ func CreateTailObject(path string, module string, topic string) (t *tailClass, e
 	err = t.Init()
 	return
 }
-
-

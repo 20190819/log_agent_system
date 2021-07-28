@@ -1,13 +1,14 @@
 package main
 
 import (
+	"sync"
+
 	"github.com/yangliang4488/log_agent_system/bootstrap"
 	"github.com/yangliang4488/log_agent_system/config"
 	"github.com/yangliang4488/log_agent_system/logger"
 	etcdService "github.com/yangliang4488/log_agent_system/services/etcd"
 	"github.com/yangliang4488/log_agent_system/services/kafka"
 	"github.com/yangliang4488/log_agent_system/services/tailfile"
-	"sync"
 )
 
 var (
@@ -24,7 +25,7 @@ func main() {
 	collectLogConf, _ := etcdService.GetCollectConf(collectLogKey)
 	// 监听配置通道
 	newConfChan := etcdService.WatchConfChan()
-	// 初始化 tail
+	// 初始化 tailManger
 	err := tailfile.InitManager(collectLogConf, newConfChan)
 	if err != nil {
 		panic(err.Error())
